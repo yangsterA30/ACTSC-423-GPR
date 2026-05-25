@@ -11,6 +11,8 @@ The models analyzed are:
 * XGBoost
 * Neural Network (MLP/FNN)
 
+The project consists of two components: GPR 1 provides a literature review and critique of prior studies, while GPR 2 replicates the methodologies and findings from those studies and analyzes the corresponding results. 
+
 ## Data
 The dataset was obtained from Philipp Dubach’s publicly available options database:
 * Historical options data for 104 U.S. equities and ETFs
