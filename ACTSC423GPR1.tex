@@ -1,0 +1,320 @@
+\documentclass[oneside, 12pt]{article}
+\usepackage{tgtermes}
+\usepackage[english]{babel}
+\usepackage{graphicx} % Required for inserting images}
+\usepackage{adjustbox} 
+\usepackage{amsmath}   % For math symbols
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[most]{tcolorbox}
+\usepackage{lipsum}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage[most]{tcolorbox} % tcolorbox package for colored, breakable boxes
+\usepackage[dvipsnames]{xcolor}
+\usepackage{wrapfig}
+\usepackage{enumitem}
+\usepackage{bbm}
+\usepackage{tikz}
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt   
+\usetikzlibrary{shapes.geometric, positioning, arrows.meta} % Ensure proper libraries are loaded
+\usetikzlibrary{arrows.meta, decorations.pathreplacing, positioning}
+\usepackage{pst-node}
+\usepackage{fancyhdr}
+\usepackage{pgfplots}
+\usepackage{subcaption}
+\usepackage{actuarialsymbol}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{decorations.pathreplacing}
+\usepgfplotslibrary{fillbetween}
+\immediate\write18{which pygmentize > pygmentize-path.txt}
+\immediate\write18{Rscript ExamDataset.R}
+\usepackage{minted}
+\tcbuselibrary{listingsutf8}
+\usepackage{etoolbox} % for patching minted
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{prop}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{defn}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{cor}{Corollary}
+\newtheorem{relation}{Relation}
+\newcommand{\ppx}{\Pi_p(x)}
+
+
+\definecolor{myblue}{RGB}{56,94,141}
+
+
+\headsep = 0pt
+\marginparsep = 16pt
+\footskip = 60pt
+\oddsidemargin = 6pt
+\textheight = 650pt
+\textwidth = 460pt
+\topmargin = -23pt
+\setlength\parindent{0pt}
+% Define a customizable breakable box style
+\newtcolorbox{mybox1}[2][]{ % [1] optional argument for the title, [2] mandatory color argument
+  breakable,              % Allow the box to break across pages
+  colback=#2!10,          % Background color (lighter version of the provided color)
+  colframe=#2,            % Border color
+  coltitle=black,         % Title text color
+  coltext=black,          % Content text color
+  title={#1},             % Title text passed as argument
+  width=16.5cm,       % Box takes the full width of the text area
+  fonttitle=\bfseries,    % Bold font for the title
+  boxrule=0.5mm,          % Thickness of the box border
+  arc=1mm,               % Radius for rounded corners, 15mm for very rounded
+  enhanced                % Enhanced options for more styling
+}
+\newtcolorbox{mybox2}[2][]{ % [1] optional argument for the title, [2] mandatory color argument
+  breakable,              % Allow the box to break across pages
+  colback=#2!10,          % Background color (lighter version of the provided color)
+  colframe=#2,            % Border color
+  coltitle=white,         % Title text color
+  coltext=black,          % Content text color
+  title={#1},             % Title text passed as argument
+  width=16.5cm,       % Box takes the full width of the text area
+  fonttitle=\bfseries,    % Bold font for the title
+  boxrule=0.5mm,          % Thickness of the box border
+  arc=1mm,               % Radius for rounded corners, 15mm for very rounded
+  enhanced                % Enhanced options for more styling
+}
+
+\newtcolorbox{codebox}{
+  colback=gray!10,       % light gray background
+  colframe=gray!40,      % border color
+  listing only,
+  listing options={
+    style=default,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    showstringspaces=false,
+    linenos
+  },
+  left=5pt,
+  right=6pt,
+  top=5pt,
+  bottom=5pt,
+  arc=0mm,
+  width=17cm, 
+  enhanced
+}
+
+
+
+\newcommand*{\1}{\text{\scalebox{1.1}{\usefont{U}{bbold}{m}{n}1}}}
+
+\DeclareRobustCommand{\annu}[1]{_{%
+    \def\arraystretch{0}%
+    \setlength\arraycolsep{1pt}%        adjust these
+    \setlength\arrayrulewidth{0.4pt}%  two settings
+    \begin{array}[b]{@{}c|}\hline
+    \\[\arraycolsep]%
+    \scriptstyle #1%
+    \end{array}%
+}}
+
+
+\def\pr{\mathbb{P}}
+\def\ind{\overset{\text{ind}}{\sim}}
+\def\iid{\overset{\text{iid}}{\sim}}
+\def\expec{\mathbb{E}}
+\def\indep{\perp\!\!\!\!\perp}
+\def\given{\left.|\right.}
+\def\var{\mathrm{Var}}
+\def\VaR{\mathrm{VaR}}
+\def\TVaR{\mathrm{TVaR}}
+\def\rank{\mathrm{rank}}
+\def\cov{\mathrm{Cov}}
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        % Top of the page content
+        \vspace*{1cm} % Add vertical space from the top margin
+        
+        {\Huge\textbf{Machine Learning Approach for Delta-Hedged Option Return Predictions}} % Title formatting
+        
+        \vspace{0.5cm} % Space between title and subtitle
+        
+        {\Large Group Project Report 1} % Subtitle
+        
+        \vspace{1.5cm} % Space between subtitle and author
+        
+        {\Large\textbf{Alex Yang}} % Author formatting 
+        
+        
+        \vspace{1cm}
+        {\Large Instructor: Tony Wirjanto}
+
+        \vfill % Automatically fills the remaining vertical space
+
+        % Bottom of the page content
+        A group project report submitted for the partial fulfillment of\\
+        AFM423/ACTSC 423 - Topics in Financial Econometrics
+        \vspace{0.8cm}
+        \\[0.5cm]
+        Department of Statistics and Actuarial Science \& School of Accounting and Finance\\
+        University of Waterloo\\
+        \today
+    \end{center}
+    
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Introduction}
+\subsection{Background}
+As the financial market develop, option trading has become an important instrument among investors for the purposes of hedging and speculation strategies. Due to its versatility, option trading serves as a flexible alternative to stocks trading, where investors have the potential for profit in both rising and falling markets. However, the tradeoff for this flexibility is substantial risk, as wrong speculation of the market often lead to significant losses. Therefore, accurately predicting the returns of the options to construct a well-diversified portfolio is crucial.  \newline
+
+In 1973, Black and Scholes proposed the idea of risk-neutral option pricing under the assumption of constant volatility. However, the assumption is often violated as the volatility is sensitive to time at maturity, moneyness and other external factors. With the emergence of machine learning in statistics, it is possible to use these techniques to model complex and non-linear financial data. Since the directional impact of the underlying stock prices can be eliminated through hedging procedures (Tian \& Wu, 2023), hence, isolating the risk premiums through delta-hedging method is applied to study the non linear relationships between the risks for precise predictions. 
+
+\subsection{Primary Focus of the Project}
+The objective of this project is to assess the performance of machine learning approaches and evaluate whether they improve the predictive power of delta-hedged option returns relative to benchmark models. In addition, we examine the profitability of portfolio construction strategies for call and put options, including long-only, short-only, and long-short approaches.
+
+\newpage
+
+\section{Article Review and Critique}
+\subsection{Article 1: "Option Return Predictability via Machine Learning:  New Evidence from China" (Huang et al., 2025)}
+\subsubsection{Overview}
+The article aims to investigate the predictive power of machine learning algorithms to option returns of Chinese options market, which is deemed to be an emerging but not yet matured. Moreover, the authors attempt to identify key characteristics to return prediction and construct delta-neutral portfolios through daily hedging strategies. The investment performance is predicted through machine learning models, and compared with the IPCA benchmark through performance metrics such as delta-hedged annual returns, sharpe ratios and information coefficients. These performance metrics are also compared among different portfolio constructions, including long only, short only and long-short. \newline
+
+A noticeable difference between the matured U.S. option market is also mentioned in the article. Unlike the U.S. market, the Chinese options markets pose short-selling restrictions on the spot market, and were not relieved until March 2020. For this reason, after applying delta-hedging method, the return of future hedging is more lucrative than spot hedging. 
+
+\subsubsection{Machine Learning Methods}
+In the paper, the authors used several linear models, such as Lasso regression, Ridge regression, Elastic Net regression and Partial Least Squares, where the tuning parameters are obtained from cross-validation method. \newline
+
+For non linear models, the authors considered Random Forest (RF), Gradient Boosted Decision Trees (GBDT), Extreme Gradient Boosting (XGBoost), Deep Functional Network (DFN), L-En, N-En and Supported Vector Regression (SVR). 
+
+\subsubsection{Results and Findings}
+In comparison to the standard IPCA benchmark, the machine learning models outperforms with higher annual returns and larger sharpe ratios for both future hedging and spot hedging strategies. Furthermore,  the machine learning models are capable to identify useful information from high-dimensional datas and construct superior efficient frontiers compared to the linear models. \newline
+
+In terms of predictive power, the authors suggested machine learning models show strong predictive performance on newly issued option products which are related to ETFs and small and mid-cap stock indices, and are able to generate positive risk-adjusted returns even accounting for transaction costs. 
+
+\subsubsection{Limitations}
+As stated previously, Chinese option market places restriction on short-selling on the underlying spot asset, therefore the efficiency of hedging strategies are severely affected, which loses the generalizability of applying to developed market such as the U.S. market. \newline
+
+Additionally, the number of historical data is limited as the first option trading market is opened in 2015, the machine learning models may not capture the regime shifts and rare extreme market conditions. Although the authors use out-of-sample testing and robustness tests, but the use of longer historical data will ensure consistency across different market cycles. \newline
+
+Finally, the curse of dimensionality also has an impact on effective prediction, as the complex interactions between the variables are typically hard to be explored for high dimensional factors even under some machine learning techniques and despite its flexibility, it can still pose risks for overfitting. 
+
+\newpage
+
+\subsection{Article 2: "Option Return Predictability with Machine Learning and Big Data" (Bali et al., 2023)}
+\subsubsection{Overview}
+This article aims to use the idea of characteristic-based asset pricing to predict the delta-hedged option returns by utilizing the characteristics from stock and option market. In other words, the paper focuses on the predictive power of potential excess return of the options after applying daily hedging strategies. To achieve this objective, the data from U.S. equity option market is being collected, and the authors hope to use machine learning models to explain the non-linear interactions between the large amount of stocks and options characteristics, but also reducing the risk of overfitting. \newline
+
+To assess the predictive power, the author used out-of-sample $R^2$ statistics and to obtain the annual return, the authors constructed portfolios using long-short strategy. For comparison, they used two benchmarks: 
+\begin{enumerate}
+\item Zero-excess return (Inspired by the Black Scholes model)
+\item IPCA 
+\end{enumerate}
+Delta-hedged annual rate of return and sharpe ratios are selected as performance metrics. 
+
+
+\subsubsection{Machine Learning Methods}
+In the article, the authors used linear models, such as Lasso, Ridge and Elastic Net regressions, for linear dimension reduction, they considered principal component (PCR) and partial least squares regressions (PLS). \newline
+
+For non-linear models, they considered machine learning models, such as random forests, gradient boosted tree regressions, deep forward neural networks (FFN), L-En and N-En.
+
+\subsubsection{Results and Findings}
+The non-linear machine learning models outperforms the linear models and provides strong predictive performance based on out-of-sample $R^2$, moreover, the long-short portfolio constructed based on machine learning forecasts are highly profitable, even accounting for large transaction costs.  \newline
+
+The article also finds that characteristics associated with implied volatility surface and non linear option risk measures (e.g., jump and volatility risk) impact option return predictions significantly.  
+
+\subsubsection{Limitations}
+The shortcoming is that the risk of data mining bias may be present, since the data spans from 1996-2020, with 193 stock-based characteristics and 80 option-based characteristics, thus increasing the potential to over-complicate the model which leads to overfitting. Moreover, there also exist time-period dependence, since we observed the 2008 financial crisis and COVID shocks of the U.S. market during this period, which may explain some historical market volatility under regime shifts, but its generalizability onto the future and other options (e.g., European options) remains uncertain.  
+\newpage
+
+\subsection{Article 3: "Option Return Predictability, a Machine Approach" (Ho \& Hu, 2017)}
+\subsubsection{Overview}
+This paper investigates the predictive power of linear machine model on delta-hedged option returns using 101 signals as predictor candidates. Moreover, it examines the ability of machine learning model to extract useful signals through variable selections and test the prediction based on the selected variables using out-of-sample and in-sample data. Profitability are also being examined by constructing portfolios using long-short strategy. Additionally, the authors collect the data of the American options from the U.S. market, which includes pricing information, option greeks, historical volatilities and implied volatilities. 
+
+\subsubsection{Machine Learning Methods}
+The article only used Lasso to predict the delta-hedged returns of the options, where the tuning parameter was selected using 10-fold cross validation method. 
+
+\subsubsection{Results and Findings}
+The authors find Lasso results provides a highly profitable trading strategy for put options with 30 days-to maturity and more varied results for other options. The predictors that Lasso select also had outstanding performance in out-of-sample, factors such as capital gains overhang of the underlying stock are the most frequently selected and various measures of uncertainty were also popular among variable selections. 
+
+\subsubsection{Limitations}
+One limitation is the paper uses the regularized model, however, the absence of non linear models in the paper limits the exploration of the non linear relationships between the characteristics selected and delta-hedged option returns, along with their predictive performance on out-of-sample data with different trading strategies. \newline
+
+Due to the time of publication, the authors weren't able to include the data in the 2020 decade, which leads to absence of important regime shifts, such as COVID crashes, Russian-Ukrainian War crisis and other geopolitical tensions. This might affect the model's selections on the predictors, which also influence the stability of the return and forecasts. 
+
+\newpage
+
+\section{Remarks}
+In conclusion, there are a lot of similarities between the three literatures. An important commonality is that the prediction of option return relies on mispricing of options is foundational to all the machine learning algorithms. In other words, the predictive performance of any model depends on the market being not arbitrage-free. This result makes sense, since for Black and Scholes (1973) model, the delta-hedged excess return should be zero under continuous rebalancing, but the practicality of correct pricing is hardly achieved as the skewness and kurtosis of the distribution varies with time, thus, only in non arbitrage-free market, prediction of delta-hedged option return is feasible.  \newline
+
+From the results, it was also shown that non linear machine learning models indeed outperforms the traditional linear models for options with different exercise styles, which shows that the relationships between the characteristics and delta-hedged option returns are non-linear. Although, options with early exercise rights will affect the portfolio return, but since all literatures choose short holding period (e.g., one month), the impact for early exercising on delta-hedging returns is relaxed. 
+
+\section{Group Project Report 2 Plans}
+This project will build upon the literatures that is reviewed in GPR 1 and discover the improvements of option return predictive power under Machine Learning algorithms and compare their efficiencies.  We will use the following as performance metrics:
+\begin{itemize}
+\item Delta-Hedged Option Rate of Return inspired by Bakshi and Kapadia (2003) in Bali et al (2023)'s article 
+$$
+r_{t, t + \tau} = \frac{\Pi (t, t + \tau)}{|\Delta_t S_t - V_t|}
+$$
+where $\Pi(t, t + \tau)$ is defined as follows
+$$
+\Pi (t, t + \tau) = V_{t + \tau} - V_t - \sum_{n = 0}^{N - 1} \Delta_{V, t_n} \times [S(t_{n + 1}) - S(t_n)] - \sum_{n = 0}^{N - 1} \frac{a_n r_n}{365} [V(t_n) - \Delta_{V, t_n} S(t_n)]
+$$
+where $V_t$ denotes the price of the option at time $t$; $S(t)$ denotes the price of the underlying asset at time $t$; $r_n$ is the risk-free rate at $t_n$; $a_n$ is the number of calendar days between rehedging dates $t_n$ and $t_{n + 1}$; and $\Delta_{V, t_n}$ is the observed delta of the option at time $t_n$.
+\item Annualized Sharpe Ratio
+$$
+\mathrm{Sharpe \,\, Ratio} = \frac{R_p - R_f}{\sigma_p}
+$$
+where $R_p$ is the portfolio return; $R_f$ is the risk-free rate and $\sigma_p$ is standard deviation of the portfolio. 
+\end{itemize}
+
+\subsection{Data Collection and Processing}
+The historical option prices data for all U.S. single equity options will be collected from OptionMetrics IvyDB, for both calls and puts. The procedure to clean the data will be same to Bali et al. (2023), where we
+\begin{itemize}
+\item Exclude options with no implied volatility and greeks 
+\item Exclude options that have dividend scheduled during the investment period
+\item Exclude options with zero volume over the last 7 calendar days
+\item Remove options with bid price of 0
+\end{itemize}
+A verification on the bound of the option prices will also be included to ensure the bound of American options are not violated. Moreover, we will ensure that the price of the options are consistent with the strikes, i.e., if strike $K_1 < K_2$, then
+$$
+C(K_1) \geq C(K_2) \quad \text{ and } \quad P(K_1) \leq P(K_2)
+$$
+ where $C(\cdot)$ is the price of call option and $P(\cdot)$ is the price of put option. Additional data on the option and stock characteristics will also be collected from external databases, with dates aligned with OptionMetrics IvyDB data.
+
+\subsection{Implementation Procedures}
+We will only select data starting from 2000 to 2023 and predict the one month ahead delta-hedged option return and their corresponding portfolio performance. The linear and non-linear machine learning models to be used are:
+\begin{itemize}
+\item Lasso 
+\item Ridge
+\item Random Forest
+\item XGBoost
+\item Feed Forward Neural Network
+\end{itemize}
+For portfolio constructions, we will sort the options based on the machine learning model's delta-hedged expected return with hedging rebalanced daily. Then, we group them into deciles and apply the long-only strategy on the top 10\% deciles, short-only strategy on the bottom 10\% deciles and long-short for the difference of buying top 10\% of deciles and selling bottom 10\% of deciles. The performance of the portfolio will be compared to the IPCA benchmark, where we use realized delta-hedged option return for each trading strategies. 
+
+
+\newpage
+
+\begin{center}
+\textbf{Work Cited}
+\end{center}
+Black, F. \& Scholes. M. (1973). Pricing of Options and Corporate Liabilities. \textit{Journal of Political Economy}, 81(3), 637-654. \newline
+
+Tian, M., and L. Wu. 2023. "Limits of Arbitrage and Primary Risk-Taking in Derivative Securities". \textit{The Review of Asset Pricing Studies} 13: 405-439. \newline
+
+Ho, Steven Wei and Hu, Yutong. \textit{Option Return Predictability, A Machine-Learning Approach} (November 17, 2017). Available at SSRN: \textcolor{magenta}{\texttt{https://ssrn.com/abstract=3073791}} or \newline \textcolor{magenta}{\texttt{http://dx.doi.org/10.2139/ssrn.3073791}}. \newline
+
+Huang, Y., Wang, Z. \& Xiao, Z. (2025). Option Return Predictability via Machine Learning: New Evidence From China. \textit{Journal of Futures Markets}, 45(9), 1232-1252. \newline \textcolor{magenta}{\texttt{https://doi.org/10.1002/fut.22604}}. \newline
+
+Bali, T. G., Beckmeyer, H., Moerke, M., \& Weigert, F. (2023). Option Return Predictability with Machine Learning and Big Data. \textit{Review of Financial Studies}, 36(9), 3548–3602.
+
+\end{document}
